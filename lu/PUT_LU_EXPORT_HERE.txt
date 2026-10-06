@@ -1,0 +1,1 @@
+Put your LU timetable export here, renamed to timetable.xlsx

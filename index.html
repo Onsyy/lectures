@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lectures</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --ink:#16211F; --muted:#66716F; --line:#DFE5E3;
+  --rtu:#0E7C6B; --rtu-soft:#E2F2EF; --lu:#B8325A; --lu-soft:#F8E4EA; --changed:#E0567A; --today:#FFF7DD;
+  --display:"Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body:"Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1514; --surface:#18201F; --ink:#E8EFED; --muted:#93A09D; --line:#2A3533;
+    --rtu:#4CC6B1; --rtu-soft:#16302C; --lu:#F07FA0; --lu-soft:#35202A; --changed:#FF7C9C; --today:#2A2716;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1514; --surface:#18201F; --ink:#E8EFED; --muted:#93A09D; --line:#2A3533;
+  --rtu:#4CC6B1; --rtu-soft:#16302C; --lu:#F07FA0; --lu-soft:#35202A; --changed:#FF7C9C; --today:#2A2716;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--rtu);outline-offset:2px}
+
+.app{max-width:760px;margin:0 auto;padding:22px 16px 40px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+h1{font:700 30px/1 var(--display);letter-spacing:-.02em;margin:0}
+.checked{font-size:13px;color:var(--muted);text-align:right}
+.legend{display:flex;gap:12px;font-size:13px;color:var(--muted);margin-top:4px;justify-content:flex-end}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+.weeknav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:8px;padding:8px 0 12px}
+.weeknav button{border:1px solid var(--line);background:var(--surface);border-radius:10px;min-width:42px;height:42px;padding:0 12px;font-weight:600}
+.weeknav .range{flex:1;text-align:center;font:600 16px/1.2 var(--display)}
+.weeknav .range small{display:block;font:500 12px var(--body);color:var(--muted)}
+
+.day{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden}
+.day.today{border-color:var(--rtu);box-shadow:0 0 0 1px var(--rtu)}
+.dayhead{display:flex;justify-content:space-between;align-items:baseline;padding:12px 16px 4px}
+.dayhead b{font:700 17px var(--display)}
+.dayhead span{font-size:13px;color:var(--muted)}
+.day.today .dayhead span{color:var(--rtu);font-weight:600}
+.day.empty .dayhead{padding-bottom:12px}
+.day.empty .dayhead b{color:var(--muted);font-weight:500}
+
+.ev{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:10px 16px;border-top:1px solid var(--line);position:relative}
+.dayhead + .ev{border-top:0}
+.ev .t{font-variant-numeric:tabular-nums;font-weight:600;line-height:1.25}
+.ev .t small{display:block;color:var(--muted);font-weight:500}
+.ev .bar{position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 3px 3px 0}
+.ev.rtu .bar{background:var(--rtu)} .ev.lu .bar{background:var(--lu)}
+.ev .s{font-weight:600}
+.ev .meta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:2px}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;border-radius:6px;padding:1px 6px;vertical-align:1px}
+.tag.rtu{background:var(--rtu-soft);color:var(--rtu)} .tag.lu{background:var(--lu-soft);color:var(--lu)}
+.tag.changed{background:var(--changed);color:#fff}
+.tag.exam{background:var(--ink);color:var(--bg)}
+.tba{font-style:italic}
+.past{opacity:.5}
+.msg{color:var(--muted);text-align:center;padding:40px 0}
+.free{padding:26px 16px;color:var(--muted);text-align:center}
+.cal{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 12px 16px;margin-top:14px}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.calhead b{font:700 17px var(--display)}
+.calhead button{border:0;background:none;width:40px;height:40px;border-radius:10px;font-size:20px}
+.calhead button:hover{background:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.grid .wd{font-size:12px;color:var(--muted);padding:4px 0 6px;font-weight:600}
+.grid button{border:0;background:none;border-radius:12px;padding:7px 0 6px;min-height:46px;display:flex;flex-direction:column;align-items:center;gap:3px;font-variant-numeric:tabular-nums}
+.grid button:hover{background:var(--bg)}
+.grid button.other{visibility:hidden}
+.grid button.today span{color:var(--rtu);font-weight:700}
+.grid button.sel{background:var(--rtu-soft)}
+.grid button.sel span{font-weight:700}
+.dots{display:flex;gap:3px;height:6px}
+.dots i{width:6px;height:6px;border-radius:50%}
+.dots .rtu{background:var(--rtu)} .dots .lu{background:var(--lu)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Lectures</h1>
+    <div>
+      <div class="checked" id="checked">Loading…</div>
+      <div class="legend"><span><i style="background:var(--rtu)"></i>RTU</span><span><i style="background:var(--lu)"></i>LU</span></div>
+    </div>
+  </header>
+  <div class="weeknav">
+    <button id="prev" aria-label="Previous day">‹</button>
+    <div class="range" id="range"></div>
+    <button id="next" aria-label="Next day">›</button>
+    <button id="today">Today</button>
+  </div>
+  <div id="days"></div>
+  <section class="cal" aria-label="Month calendar">
+    <div class="calhead">
+      <button id="mprev" aria-label="Previous month">‹</button>
+      <b id="mlabel"></b>
+      <button id="mnext" aria-label="Next month">›</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const pad = n => String(n).padStart(2,"0");
+  // all dates handled as Riga calendar dates (the data is already local)
+  const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+  const parse = s => new Date(s+"T12:00:00");
+  const addDays = (s,n) => { const d = parse(s); d.setDate(d.getDate()+n); return iso(d); };
+  const monday = s => { const d = parse(s); const wd = (d.getDay()+6)%7; d.setDate(d.getDate()-wd); return iso(d); };
+  const rigaNow = () => {
+    const p = new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Riga",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date());
+    const g = t => p.find(x=>x.type===t).value;
+    return { date: g("year")+"-"+g("month")+"-"+g("day"), time: g("hour")+":"+g("minute") };
+  };
+  const fmt = (s,o) => parse(s).toLocaleDateString("en-GB",o);
+
+  let events = [], day = rigaNow().date, month = day.slice(0,7);
+
+  function sessionRow(e, d, now){
+    const row = document.createElement("div");
+    const past = d < now.date || (d === now.date && e.end <= now.time);
+    row.className = "ev " + e.src.toLowerCase() + (past ? " past" : "");
+    const bar = document.createElement("i"); bar.className = "bar";
+    const t = document.createElement("div"); t.className = "t"; t.textContent = e.start;
+    const tt = document.createElement("small"); tt.textContent = e.end; t.appendChild(tt);
+    const info = document.createElement("div");
+    const s = document.createElement("div"); s.className = "s"; s.textContent = e.subject + " ";
+    const tag = document.createElement("span"); tag.className = "tag " + e.src.toLowerCase(); tag.textContent = e.src;
+    s.appendChild(tag);
+    if (/exam/i.test(e.type)) { const x = document.createElement("span"); x.className = "tag exam"; x.textContent = "EXAM"; s.append(" ", x); }
+    if (e.status !== 1) { const x = document.createElement("span"); x.className = "tag changed"; x.textContent = "CHANGED"; s.append(" ", x); }
+    const meta = document.createElement("div"); meta.className = "meta";
+    const room = document.createElement("span"); room.textContent = e.room; if (e.room === "Room TBA") room.className = "tba";
+    meta.appendChild(room);
+    if (e.type) { const ty = document.createElement("span"); ty.textContent = e.type.replace(/\.$/,""); meta.appendChild(ty); }
+    if (e.lecturer) { const l = document.createElement("span"); l.textContent = e.lecturer; meta.appendChild(l); }
+    info.append(s, meta);
+    row.append(bar, t, info);
+    return row;
+  }
+
+  function renderDay(){
+    const now = rigaNow();
+    $("#range").innerHTML = fmt(day,{weekday:"long", day:"numeric", month:"short"})
+      + "<small>" + (day === now.date ? "Today" : day === addDays(now.date,1) ? "Tomorrow" : day === addDays(now.date,-1) ? "Yesterday" : fmt(day,{year:"numeric"})) + "</small>";
+    const box = $("#days"); box.innerHTML = "";
+    const list = events.filter(e => e.date === day);
+    const card = document.createElement("section");
+    card.className = "day" + (day === now.date ? " today" : "");
+    if (!list.length) {
+      const f = document.createElement("div"); f.className = "free"; f.textContent = "No lectures 🎉"; card.appendChild(f);
+    }
+    list.forEach(e => card.appendChild(sessionRow(e, day, now)));
+    box.appendChild(card);
+  }
+
+  function renderCal(){
+    const now = rigaNow();
+    const first = month + "-01";
+    $("#mlabel").textContent = fmt(first,{month:"long", year:"numeric"});
+    const grid = $("#grid"); grid.innerHTML = "";
+    ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(w => { const d = document.createElement("div"); d.className = "wd"; d.textContent = w; grid.appendChild(d); });
+    const bySrc = {};
+    events.forEach(e => { if (e.date.startsWith(month)) (bySrc[e.date] = bySrc[e.date] || new Set()).add(e.src); });
+    let d = monday(first);
+    for (let i=0;i<42;i++){
+      const cur = d;
+      if (i >= 35 && !cur.startsWith(month)) break;
+      const b = document.createElement("button"); b.type = "button";
+      const inMonth = cur.startsWith(month);
+      b.className = (inMonth ? "" : "other") + (cur === now.date ? " today" : "") + (cur === day ? " sel" : "");
+      const n = document.createElement("span"); n.textContent = parse(cur).getDate();
+      const dots = document.createElement("div"); dots.className = "dots";
+      ["RTU","LU"].forEach(sx => { if (bySrc[cur] && bySrc[cur].has(sx)) { const i2 = document.createElement("i"); i2.className = sx.toLowerCase(); dots.appendChild(i2); } });
+      b.append(n, dots);
+      b.setAttribute("aria-label", fmt(cur,{weekday:"long",day:"numeric",month:"long"}) + (bySrc[cur] ? ", has lectures" : ""));
+      if (inMonth) b.onclick = () => { day = cur; render(); window.scrollTo({top:0, behavior:"smooth"}); };
+      grid.appendChild(b);
+      d = addDays(d,1);
+    }
+  }
+
+  function render(){ month = day.slice(0,7) === month ? month : day.slice(0,7); renderDay(); renderCal(); }
+
+  $("#prev").onclick = () => { day = addDays(day,-1); render(); };
+  $("#next").onclick = () => { day = addDays(day,1); render(); };
+  $("#today").onclick = () => { day = rigaNow().date; render(); };
+  $("#mprev").onclick = () => { const d = parse(month+"-01"); d.setMonth(d.getMonth()-1); month = iso(d).slice(0,7); renderCal(); };
+  $("#mnext").onclick = () => { const d = parse(month+"-01"); d.setMonth(d.getMonth()+1); month = iso(d).slice(0,7); renderCal(); };
+
+  fetch("data/timetable.json?" + Date.now(), {cache:"no-store"})
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(data => {
+      events = (data.events || []).sort((a,b) => (a.date+a.start).localeCompare(b.date+b.start));
+      const lc = data.meta && data.meta.last_check;
+      $("#checked").textContent = lc ? "Checked " + new Date(lc).toLocaleString("en-GB",{timeZone:"Europe/Riga",weekday:"short",hour:"2-digit",minute:"2-digit"}) : "";
+      if (data.meta && data.meta.rtu_failed) $("#checked").textContent += " · RTU unreachable";
+      render();
+    })
+    .catch(() => {
+      $("#checked").textContent = "";
+      $(".weeknav").hidden = true; $(".cal").hidden = true;
+      $("#days").innerHTML = '<p class="msg">No timetable yet. It appears after the first check runs.</p>';
+    });
+})();
+</script>
+</body>
+</html>
