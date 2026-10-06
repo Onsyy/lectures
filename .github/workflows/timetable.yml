@@ -1,0 +1,52 @@
+name: Timetable
+
+on:
+  schedule:
+    - cron: "17 */3 * * *"   # check for changes every 3 hours
+    - cron: "4 17 * * *"     # evening message: 20:04 Riga in summer time
+    - cron: "4 18 * * *"     # evening message: 20:04 Riga in winter time
+  push:
+    paths:
+      - "lu/**"              # new LU export uploaded -> check right away
+  workflow_dispatch:         # "Run workflow" button for manual runs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: timetable
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install openpyxl==3.1.5
+
+      - name: Check for changes
+        if: github.event_name != 'schedule' || github.event.schedule == '17 */3 * * *'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: python scripts/update.py check
+
+      - name: Evening message
+        if: github.event_name == 'schedule' && github.event.schedule != '17 */3 * * *'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: python scripts/update.py evening
+
+      - name: Save timetable
+        run: |
+          git config user.name "timetable-bot"
+          git config user.email "timetable-bot@users.noreply.github.com"
+          git add data/timetable.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Update timetable"
+            git push
+          fi
