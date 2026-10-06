@@ -2,13 +2,13 @@ name: Timetable
 
 on:
   schedule:
-    - cron: "17 */3 * * *"   # check for changes every 3 hours
-    - cron: "4 17 * * *"     # evening message: 20:04 Riga in summer time
-    - cron: "4 18 * * *"     # evening message: 20:04 Riga in winter time
+    - cron: "37 */3 * * *"   # check for changes every 3 hours
+    - cron: "34 17 * * *"    # evening message (20:34 Riga in summer time)
+    - cron: "34 18 * * *"    # evening message (20:34 Riga in winter time)
   push:
     paths:
-      - "lu/**"              # new LU export uploaded -> check right away
-  workflow_dispatch:         # "Run workflow" button for manual runs
+      - "lu/**"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -30,13 +30,13 @@ jobs:
       - run: pip install openpyxl==3.1.5
 
       - name: Check for changes
-        if: github.event_name != 'schedule' || github.event.schedule == '17 */3 * * *'
+        if: github.event_name != 'schedule' || github.event.schedule == '37 */3 * * *'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: python scripts/update.py check
 
       - name: Evening message
-        if: github.event_name == 'schedule' && github.event.schedule != '17 */3 * * *'
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule != '37 */3 * * *')
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: python scripts/update.py evening
