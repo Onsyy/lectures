@@ -2289,7 +2289,8 @@
  ],
  "meta": {
   "rtu_failed": false,
-  "last_check": "2026-10-06T20:58+03:00",
-  "lu_failed": false
+  "last_check": "2026-10-06T21:05+03:00",
+  "lu_failed": false,
+  "evening_sent": "2026-10-06"
  }
 }
