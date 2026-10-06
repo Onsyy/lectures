@@ -1,5 +1,5 @@
 """
-Lecture timetable: merges RTU (fetched) + LU (uploaded Excel export),
+Lecture timetable: merges RTU + LU (both fetched from their public timetable pages),
 posts changes and an evening "tomorrow" message to Discord.
 
   python scripts/update.py check     # fetch, compare with last run, alert on changes
@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 # ---------- settings (change these each semester) ----------
 RTU_SEMESTER_PROGRAM_ID = 39327            # RDCP0, 2nd year, group 1, autumn 2026/27
 SEMESTER_MONTHS = [(2026, 9), (2026, 10), (2026, 11), (2026, 12), (2027, 1)]
+LU_URL = "https://lekciju-saraksts.lu.lv/grupa/26R-21922-PLK-3/hronologiski"   # LU group page (list view)
 EVENING_FROM = (19, 45)                    # send the "tomorrow" message from 19:45 Riga time...
 EVENING_UNTIL = (23, 59)                   # ...until midnight, once per day (target: 20:00)
 # -----------------------------------------------------------
@@ -70,42 +71,52 @@ def norm_rtu(ev):
 
 
 # ---------- LU ----------
-def lu_file():
-    files = glob.glob(os.path.join(ROOT, "lu", "*.xlsx"))
-    if not files:
-        return None
-    # prefer the newest export timestamp in the name (…-202610061408.xlsx), else the last name
-    def key(p):
-        m = re.search(r"(\d{12})", os.path.basename(p))
-        return (m.group(1) if m else "0", os.path.basename(p))
-    return max(files, key=key)
+from html.parser import HTMLParser
 
 
-def norm_lu_rows(rows):
+class _LURows(HTMLParser):
+    """Collects the data-* attributes of every <li class="event-row"> on the LU page."""
+    def __init__(self):
+        super().__init__()
+        self.rows = []
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "li" and "event-row" in (a.get("class") or ""):
+            self.rows.append(a)
+
+
+def fetch_lu_html():
+    req = urllib.request.Request(LU_URL, headers={"User-Agent": "Mozilla/5.0 (personal timetable checker)"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.read().decode("utf-8")
+
+
+def lu_place(building, room):
+    room_short = re.split(r"\s+FT\.", room)[0].strip() if room else ""
+    if not (building or room):
+        return "Room TBA"
+    return room_short + (" · " + building.replace("Kr. ", "") if building else "")
+
+
+def norm_lu_html(html):
+    p = _LURows()
+    p.feed(html)
+    if not p.rows:
+        raise ValueError("no sessions found on the LU page")
     out = []
-    header = [str(h or "").strip() for h in rows[0]]
-    col = {h: i for i, h in enumerate(header)}
-    need = ["Summary", "Type", "Date", "Start Time", "End Time", "Building", "Room"]
-    missing = [n for n in need if n not in col]
-    if missing:
-        raise ValueError("LU export is missing columns: %s" % ", ".join(missing))
-    for r in rows[1:]:
-        g = lambda n: ("" if r[col[n]] is None else str(r[col[n]])).strip()
-        typ = g("Type")
-        if not typ or typ == "Holiday" or not g("Start Time"):
-            continue
-        d = datetime.strptime(g("Date"), "%d/%m/%Y").date()
-        subj = re.sub(r"^[A-Za-zĀ-ž]+[A-Z]\d+[A-Z]?\s+", "", g("Summary"))  # drop course code
-        typ = typ.split("|")[-1].strip()
-        building, room = g("Building"), g("Room")
-        room_short = re.split(r"\s+FT\.", room)[0].strip() if room else ""
-        place = "Room TBA" if not (building or room) else (room_short + (" · " + building.replace("Kr. ", "") if building else ""))
+    for a in p.rows:
+        g = lambda k: (a.get(k) or "").strip()
+        d = datetime.strptime(g("data-date"), "%d.%m.%Y").date()
+        subj = re.sub(r"^[A-Za-zĀ-ž]+[A-Z]\d+[A-Z]?\s+", "", g("data-title"))
+        room = "Online" if g("data-online") else lu_place(g("data-room-building"), g("data-room"))
+        state = g("data-state") or "Live"
         out.append({
-            "src": "LU", "subject": subj, "type": typ, "lecturer": "",
-            "date": d.isoformat(), "start": g("Start Time"), "end": g("End Time"),
-            "room": place, "status": 1,
+            "src": "LU", "subject": subj, "type": g("data-event-type").split("|")[-1].strip(),
+            "lecturer": g("data-staff"),
+            "date": d.isoformat(), "start": g("data-time"), "end": g("data-time2"),
+            "room": room, "status": 1 if state == "Live" else 3, "state": state,
         })
-    # LU has no IDs: number sessions of the same subject on the same day in time order
     out.sort(key=lambda x: (x["subject"], x["date"], x["start"]))
     seen = {}
     for x in out:
@@ -113,16 +124,6 @@ def norm_lu_rows(rows):
         seen[k] = seen.get(k, 0) + 1
         x["id"] = "lu|%s|%s|%d" % (x["subject"], x["date"], seen[k])
     return out
-
-
-def load_lu():
-    path = lu_file()
-    if not path:
-        return None, None
-    import openpyxl
-    ws = openpyxl.load_workbook(path, read_only=True, data_only=True).active
-    rows = list(ws.iter_rows(values_only=True))
-    return norm_lu_rows(rows), os.path.basename(path)
 
 
 # ---------- diff ----------
@@ -187,7 +188,7 @@ def diff_lu(old, new, today):
     for k in sorted(set(go) | set(gn), key=lambda k: (k[1], k[0])):
         a = sorted(go.get(k, []), key=lambda x: x["start"])
         b = sorted(gn.get(k, []), key=lambda x: x["start"])
-        sig = lambda x: (x["start"], x["end"], x["room"], x["type"])
+        sig = lambda x: (x["start"], x["end"], x["room"], x["type"], x.get("status", 1))
         bs = [sig(x) for x in b]
         left_a = []
         for x in a:
@@ -206,6 +207,8 @@ def diff_lu(old, new, today):
                 ch.append("Room: %s → %s" % (x["room"], y["room"]))
             if x["type"] != y["type"]:
                 ch.append("Type: %s → %s" % (x["type"], y["type"]))
+            if x.get("status", 1) != y.get("status", 1):
+                ch.append("Status: %s" % (y.get("state") or status_name(y.get("status", 1))))
             lines.append("✏️ %s\n   %s" % (label(y), "\n   ".join(ch)))
         for x in left_a[len(left_b):]:
             lines.append("❌ Removed: %s, %s–%s" % (label(x), x["start"], x["end"]))
@@ -252,7 +255,7 @@ def sort_events(evs):
 
 
 # ---------- commands ----------
-def check(fetch=fetch_rtu_month, now=None):
+def check(fetch=fetch_rtu_month, now=None, fetch_lu=fetch_lu_html):
     now = now or datetime.now(TZ)
     today = now.date().isoformat()
     prev = load_state()
@@ -273,15 +276,19 @@ def check(fetch=fetch_rtu_month, now=None):
             rtu += [x for x in old_rtu if x["date"].startswith("%d-%02d" % (y, m))]
     rtu_lines = diff([x for x in old_rtu if x["date"][:7] not in failed], [x for x in rtu if x["date"][:7] not in failed], today)
 
-    # LU: only compare when the uploaded file actually changed
-    lu, lu_name = load_lu()
-    lu_lines = []
-    if lu is None:
-        lu = old_lu
+    # LU: public group page; if it can't be read, keep the last known LU data
+    lu_failed = False
+    try:
+        lu = norm_lu_html(fetch_lu())
+    except Exception as e:
+        print("LU failed: %s" % e)
+        lu_failed, lu = True, old_lu
+    if lu_failed:
+        lu_lines = []
     elif old_lu:
         lu_lines = diff_lu(old_lu, lu, today)
-    elif not first_run:
-        lu_lines = ["📥 LU timetable added: %d sessions." % len(lu)]
+    else:
+        lu_lines = [] if first_run else ["📥 LU timetable added: %d sessions." % len(lu)]
 
     msgs = []
     if first_run:
@@ -296,8 +303,13 @@ def check(fetch=fetch_rtu_month, now=None):
                         % ", ".join(failed))
         if not failed and meta.get("rtu_failed"):
             msgs.append("✅ RTU timetable is reachable again.")
+        if lu_failed and not meta.get("lu_failed"):
+            msgs.append("⚠️ Couldn't read the LU timetable page. Showing the last known data; I'll keep trying.")
+        if not lu_failed and meta.get("lu_failed"):
+            msgs.append("✅ LU timetable is reachable again.")
 
-    meta.update({"rtu_failed": bool(failed), "lu_file": lu_name or meta.get("lu_file"),
+    meta.pop("lu_file", None)
+    meta.update({"rtu_failed": bool(failed), "lu_failed": lu_failed,
                  "last_check": now.isoformat(timespec="minutes")})
     save_state({"events": sort_events(rtu + lu), "meta": meta})
     for m in msgs:
@@ -322,7 +334,7 @@ def evening(now=None):
     if evs:
         f = sorted(evs, key=lambda x: x["start"])[0]
         t = (" (" + f["type"].rstrip(".") + ")") if f["type"] else ""
-        flag = " · ⚠️ marked as changed" if f["status"] != 1 else ""
+        flag = (" · ⚠️ %s" % (f.get("state") if f.get("state") not in (None, "Live") else "marked as changed")) if f["status"] != 1 else ""
         exam = "📝 " if "exam" in f["type"].lower() else ""
         msgs.append("🌙 **Tomorrow, %s:** first up at **%s** — %s%s%s at %s, %s%s"
                     % (fmt_day(tomorrow), f["start"], exam, f["subject"], t, f["src"], f["room"], flag))
