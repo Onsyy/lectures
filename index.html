@@ -147,7 +147,7 @@ h1{font:700 30px/1 var(--display);letter-spacing:-.02em;margin:0}
     const tag = document.createElement("span"); tag.className = "tag " + e.src.toLowerCase(); tag.textContent = e.src;
     s.appendChild(tag);
     if (/exam/i.test(e.type)) { const x = document.createElement("span"); x.className = "tag exam"; x.textContent = "EXAM"; s.append(" ", x); }
-    if (e.status !== 1) { const x = document.createElement("span"); x.className = "tag changed"; x.textContent = "CHANGED"; s.append(" ", x); }
+    if (e.status !== 1) { const x = document.createElement("span"); x.className = "tag changed"; x.textContent = (e.state && e.state !== "Live") ? e.state.toUpperCase() : "CHANGED"; s.append(" ", x); }
     const meta = document.createElement("div"); meta.className = "meta";
     const room = document.createElement("span"); room.textContent = e.room; if (e.room === "Room TBA") room.className = "tba";
     meta.appendChild(room);
