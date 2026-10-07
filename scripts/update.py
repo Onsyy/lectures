@@ -13,8 +13,6 @@ from zoneinfo import ZoneInfo
 RTU_SEMESTER_PROGRAM_ID = 39327            # RDCP0, 2nd year, group 1, autumn 2026/27
 SEMESTER_MONTHS = [(2026, 9), (2026, 10), (2026, 11), (2026, 12), (2027, 1)]
 LU_URL = "https://lekciju-saraksts.lu.lv/grupa/26R-21922-PLK-3/hronologiski"   # LU group page (list view)
-EVENING_FROM = (19, 45)                    # send the "tomorrow" message from 19:45 Riga time...
-EVENING_UNTIL = (23, 59)                   # ...until midnight, once per day (target: 20:00)
 # -----------------------------------------------------------
 
 TZ = ZoneInfo("Europe/Riga")
@@ -318,27 +316,38 @@ def check(fetch=fetch_rtu_month, now=None, fetch_lu=fetch_lu_html):
 
 
 def evening(now=None):
+    """Announce the next day's first session. Runs whenever an evening attempt fires:
+    noon-midnight -> tomorrow; midnight-noon (GitHub ran late) -> today, sessions not yet started.
+    Each day is announced at most once."""
     now = now or datetime.now(TZ)
     state = load_state()
     if not state:
         print("no data yet"); return []
     meta = state.setdefault("meta", {})
-    today = now.date().isoformat()
-    if not (EVENING_FROM <= (now.hour, now.minute) <= EVENING_UNTIL):
-        print("not evening yet in Riga (%s)" % now.strftime("%H:%M")); return []
-    if meta.get("evening_sent") == today:
-        print("already sent today"); return []
-    tomorrow = (now.date() + timedelta(days=1)).isoformat()
-    evs = [x for x in state["events"] if x["date"] == tomorrow]
+    if now.hour >= 12:
+        target, word, icon = (now.date() + timedelta(days=1)).isoformat(), "Tomorrow", "🌙"
+    else:
+        target, word, icon = now.date().isoformat(), "Today", "☀️"
+    if meta.get("announced") == target:
+        print("%s already announced" % target); return []
+    evs = [x for x in state["events"] if x["date"] == target]
+    if word == "Today":
+        evs = [x for x in evs if x["start"] > now.strftime("%H:%M")]
     msgs = []
     if evs:
         f = sorted(evs, key=lambda x: x["start"])[0]
         t = (" (" + f["type"].rstrip(".") + ")") if f["type"] else ""
         flag = (" · ⚠️ %s" % (f.get("state") if f.get("state") not in (None, "Live") else "marked as changed")) if f["status"] != 1 else ""
         exam = "📝 " if "exam" in f["type"].lower() else ""
-        msgs.append("🌙 **Tomorrow, %s:** first up at **%s** — %s%s%s at %s, %s%s"
-                    % (fmt_day(tomorrow), f["start"], exam, f["subject"], t, f["src"], f["room"], flag))
-    meta["evening_sent"] = today
+        msgs.append("%s **%s, %s:** first up at **%s** — %s%s%s at %s, %s%s"
+                    % (icon, word, fmt_day(target), f["start"], exam, f["subject"], t, f["src"], f["room"], flag))
+    elif word == "Tomorrow":
+        msgs.append("%s **%s, %s:** no lectures 🎉" % (icon, word, fmt_day(target)))
+    else:
+        had = any(x["date"] == target for x in state["events"])
+        msgs.append("%s **%s, %s:** %s" % (icon, word, fmt_day(target), "no more lectures today" if had else "no lectures 🎉"))
+    meta["announced"] = target
+    meta.pop("evening_sent", None)
     save_state(state)
     for m in msgs:
         post(m)
