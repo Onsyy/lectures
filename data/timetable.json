@@ -61,32 +61,6 @@
    "status": 1
   },
   {
-   "src": "LU",
-   "subject": "Business Simulation game \"President\"",
-   "type": "Seminar/Practical works",
-   "lecturer": "Uģis Strauss",
-   "date": "2026-09-08",
-   "start": "08:30",
-   "end": "20:00",
-   "room": "101 · Valdemāra iela 161",
-   "status": 1,
-   "state": "Live",
-   "id": "lu|Business Simulation game \"President\"|2026-09-08|1"
-  },
-  {
-   "src": "LU",
-   "subject": "Business Simulation game \"President\"",
-   "type": "Seminar/Practical works",
-   "lecturer": "Uģis Strauss",
-   "date": "2026-09-09",
-   "start": "08:30",
-   "end": "20:00",
-   "room": "101 · Valdemāra iela 161",
-   "status": 1,
-   "state": "Live",
-   "id": "lu|Business Simulation game \"President\"|2026-09-09|1"
-  },
-  {
    "id": "rtu-1672056",
    "src": "RTU",
    "subject": "WEB Technologies",
@@ -2026,7 +2000,7 @@
    "id": "rtu-1672070",
    "src": "RTU",
    "subject": "WEB Technologies",
-   "type": "Lect.",
+   "type": "Cons.",
    "lecturer": "P.Rusakovs",
    "date": "2026-12-17",
    "start": "10:15",
@@ -2211,6 +2185,18 @@
    "id": "lu|Law|2027-01-06|2"
   },
   {
+   "id": "rtu-1798321",
+   "src": "RTU",
+   "subject": "WEB Technologies",
+   "type": "Ex.",
+   "lecturer": "P.Rusakovs",
+   "date": "2027-01-07",
+   "start": "10:15",
+   "end": "12:15",
+   "room": "Zun. 10-330",
+   "status": 1
+  },
+  {
    "id": "rtu-1762622",
    "src": "RTU",
    "subject": "Programming Languages",
@@ -2289,7 +2275,7 @@
  ],
  "meta": {
   "rtu_failed": false,
-  "last_check": "2026-10-09T13:53+03:00",
+  "last_check": "2026-10-09T21:30+03:00",
   "lu_failed": false,
   "announced": "2026-10-09"
  }
