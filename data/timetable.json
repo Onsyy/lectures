@@ -1046,7 +1046,7 @@
    "date": "2026-11-03",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-03|1"
@@ -1059,7 +1059,7 @@
    "date": "2026-11-03",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-03|2"
@@ -1072,7 +1072,7 @@
    "date": "2026-11-03",
    "start": "16:30",
    "end": "18:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-03|1"
@@ -1085,7 +1085,7 @@
    "date": "2026-11-03",
    "start": "18:15",
    "end": "19:45",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-03|2"
@@ -1098,7 +1098,7 @@
    "date": "2026-11-04",
    "start": "16:30",
    "end": "18:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-04|1"
@@ -1111,7 +1111,7 @@
    "date": "2026-11-04",
    "start": "18:15",
    "end": "19:45",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-04|2"
@@ -1208,7 +1208,7 @@
    "date": "2026-11-10",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-10|1"
@@ -1221,7 +1221,7 @@
    "date": "2026-11-10",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-10|2"
@@ -1234,7 +1234,7 @@
    "date": "2026-11-10",
    "start": "16:30",
    "end": "18:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-10|1"
@@ -1247,7 +1247,7 @@
    "date": "2026-11-10",
    "start": "18:15",
    "end": "19:45",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-10|2"
@@ -1256,11 +1256,11 @@
    "src": "LU",
    "subject": "Sales skills and Intercultural Communication",
    "type": "Lecture",
-   "lecturer": "Vigants Lesausks",
+   "lecturer": "Marta Kontiņa",
    "date": "2026-11-11",
-   "start": "16:30",
-   "end": "18:00",
-   "room": "Room TBA",
+   "start": "15:00",
+   "end": "16:30",
+   "room": "204 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-11|1"
@@ -1271,12 +1271,25 @@
    "type": "Lecture",
    "lecturer": "Vigants Lesausks",
    "date": "2026-11-11",
-   "start": "18:15",
-   "end": "19:45",
-   "room": "Room TBA",
+   "start": "16:30",
+   "end": "18:00",
+   "room": "204 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-11|2"
+  },
+  {
+   "src": "LU",
+   "subject": "Sales skills and Intercultural Communication",
+   "type": "Lecture",
+   "lecturer": "Vigants Lesausks",
+   "date": "2026-11-11",
+   "start": "18:15",
+   "end": "19:45",
+   "room": "204 · Valdemāra iela 161",
+   "status": 1,
+   "state": "Live",
+   "id": "lu|Sales skills and Intercultural Communication|2026-11-11|3"
   },
   {
    "id": "rtu-1672065",
@@ -1382,7 +1395,7 @@
    "date": "2026-11-17",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-17|1"
@@ -1395,7 +1408,7 @@
    "date": "2026-11-17",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-17|2"
@@ -1492,7 +1505,7 @@
    "date": "2026-11-24",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-24|1"
@@ -1505,7 +1518,7 @@
    "date": "2026-11-24",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-11-24|2"
@@ -1590,7 +1603,7 @@
    "date": "2026-12-01",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-12-01|1"
@@ -1603,7 +1616,7 @@
    "date": "2026-12-01",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-12-01|2"
@@ -1726,7 +1739,7 @@
    "date": "2026-12-08",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-12-08|1"
@@ -1739,7 +1752,7 @@
    "date": "2026-12-08",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-12-08|2"
@@ -1752,7 +1765,7 @@
    "date": "2026-12-08",
    "start": "14:30",
    "end": "16:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-08|1"
@@ -1765,7 +1778,7 @@
    "date": "2026-12-08",
    "start": "16:30",
    "end": "18:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-08|2"
@@ -1778,7 +1791,7 @@
    "date": "2026-12-09",
    "start": "08:30",
    "end": "10:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-09|1"
@@ -1791,7 +1804,7 @@
    "date": "2026-12-09",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-09|2"
@@ -1900,7 +1913,7 @@
    "date": "2026-12-15",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-12-15|1"
@@ -1913,7 +1926,7 @@
    "date": "2026-12-15",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2026-12-15|2"
@@ -1926,7 +1939,7 @@
    "date": "2026-12-15",
    "start": "14:30",
    "end": "16:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-15|1"
@@ -1939,7 +1952,7 @@
    "date": "2026-12-15",
    "start": "16:30",
    "end": "18:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-15|2"
@@ -1952,7 +1965,7 @@
    "date": "2026-12-16",
    "start": "08:30",
    "end": "10:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-16|1"
@@ -1965,7 +1978,7 @@
    "date": "2026-12-16",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2026-12-16|2"
@@ -2088,7 +2101,7 @@
    "date": "2027-01-05",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2027-01-05|1"
@@ -2101,7 +2114,7 @@
    "date": "2027-01-05",
    "start": "12:30",
    "end": "14:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Enterpreneurship|2027-01-05|2"
@@ -2114,7 +2127,7 @@
    "date": "2027-01-05",
    "start": "14:30",
    "end": "16:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-05|1"
@@ -2127,7 +2140,7 @@
    "date": "2027-01-05",
    "start": "16:30",
    "end": "18:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-05|2"
@@ -2140,7 +2153,7 @@
    "date": "2027-01-06",
    "start": "08:30",
    "end": "10:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-06|1"
@@ -2153,7 +2166,7 @@
    "date": "2027-01-06",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "501 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-06|2"
@@ -2216,7 +2229,7 @@
    "date": "2027-01-12",
    "start": "08:30",
    "end": "10:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-12|1"
@@ -2229,7 +2242,7 @@
    "date": "2027-01-12",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-12|2"
@@ -2242,7 +2255,7 @@
    "date": "2027-01-13",
    "start": "08:30",
    "end": "10:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-13|1"
@@ -2255,7 +2268,7 @@
    "date": "2027-01-13",
    "start": "10:30",
    "end": "12:00",
-   "room": "Room TBA",
+   "room": "201 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Online Financial Services|2027-01-13|2"
@@ -2275,7 +2288,7 @@
  ],
  "meta": {
   "rtu_failed": false,
-  "last_check": "2026-10-28T12:00+02:00",
+  "last_check": "2026-10-28T20:29+02:00",
   "lu_failed": false,
   "announced": "2026-10-28"
  }
