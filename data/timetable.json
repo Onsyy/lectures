@@ -1098,7 +1098,7 @@
    "date": "2026-11-04",
    "start": "16:30",
    "end": "18:00",
-   "room": "501 · Valdemāra iela 161",
+   "room": "504 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-04|1"
@@ -1111,7 +1111,7 @@
    "date": "2026-11-04",
    "start": "18:15",
    "end": "19:45",
-   "room": "501 · Valdemāra iela 161",
+   "room": "504 · Valdemāra iela 161",
    "status": 1,
    "state": "Live",
    "id": "lu|Sales skills and Intercultural Communication|2026-11-04|2"
@@ -2288,7 +2288,7 @@
  ],
  "meta": {
   "rtu_failed": false,
-  "last_check": "2026-11-02T08:46+02:00",
+  "last_check": "2026-11-02T21:45+02:00",
   "lu_failed": false,
   "announced": "2026-11-02"
  }
