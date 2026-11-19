@@ -1092,6 +1092,19 @@
   },
   {
    "src": "LU",
+   "subject": "Karjeras diena / Career Day",
+   "type": "Practical works",
+   "lecturer": "",
+   "date": "2026-11-04",
+   "start": "08:30",
+   "end": "16:00",
+   "room": "101 · Valdemāra iela 161",
+   "status": 1,
+   "state": "Live",
+   "id": "lu|Karjeras diena / Career Day|2026-11-04|1"
+  },
+  {
+   "src": "LU",
    "subject": "Sales skills and Intercultural Communication",
    "type": "Lecture",
    "lecturer": "Vigants Lesausks",
@@ -2288,7 +2301,7 @@
  ],
  "meta": {
   "rtu_failed": false,
-  "last_check": "2026-11-19T04:47+02:00",
+  "last_check": "2026-11-19T14:05+02:00",
   "lu_failed": false,
   "announced": "2026-11-19"
  }
